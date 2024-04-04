@@ -24,19 +24,14 @@ func newDeck() deck {
 	return cards
 }
 
-func newDeckFromFile(file string) deck {
-	data, err := os.ReadFile(file)
-	if err != nil {
-		panic(err)
-	}
-	decodedText := decodeB64(string(data))
-
+func newDeckFromFile(file string) (deck, error) {
 	cards := deck{}
+	data, err := os.ReadFile(file)
+	decodedText := decodeB64(string(data))
 	cards.fromString(decodedText)
-	return cards
+	return cards, err
 }
 
-// 'd' here is a 'this' of C++/JS and 'self' of Python
 func (d deck) print() {
 	for idx, element := range d {
 		fmt.Println(idx, element)
@@ -45,43 +40,20 @@ func (d deck) print() {
 
 func deal(d deck, handSize int) (deck, deck) {
 	// create a hand of 'n' cards
-
 	hand := d[:handSize]
 	remaining := d[handSize:]
-
 	return hand, remaining
 }
 
-func (d deck) saveToFile(file string) {
+func (d deck) saveToFile(file string) error {
 	// convert []string -> 'string' -> []byte
 	// write []byte -> base64 encode -> []byte -> file
-
-	cardsString := d.toString()
-	encodedText := encodeB64(cardsString)
-
-	err := os.WriteFile(file, []byte(encodedText), 0666)
-	if err != nil {
-		panic(err)
-	}
-}
-
-func encodeB64(data string) string {
-	return base64.StdEncoding.EncodeToString([]byte(data))
-}
-
-func decodeB64(b64EncodedText string) string {
-
-	rawDecodedText, err := base64.StdEncoding.DecodeString(b64EncodedText)
-	if err != nil {
-		panic(err)
-	}
-
-	return string(rawDecodedText)
+	encodedText := encodeB64(d.toString())
+	return os.WriteFile(file, []byte(encodedText), 0666)
 }
 
 func (d deck) toString() string {
-	cards := strings.Join(d, ";")
-	return cards
+	return strings.Join([]string(d), ";")
 }
 
 func (d *deck) fromString(cardsText string) {
@@ -91,4 +63,16 @@ func (d *deck) fromString(cardsText string) {
 		cardsDeck = append(cardsDeck, card)
 	}
 	*d = cardsDeck
+}
+
+func encodeB64(data string) string {
+	return base64.StdEncoding.EncodeToString([]byte(data))
+}
+
+func decodeB64(b64EncodedText string) string {
+	rawDecodedText, err := base64.StdEncoding.DecodeString(b64EncodedText)
+	if err != nil {
+		panic(err)
+	}
+	return string(rawDecodedText)
 }

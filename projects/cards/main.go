@@ -10,7 +10,15 @@ func main() {
 	// remaining.print()
 
 	// fmt.Println(deal(cards, 2))
-	hand.saveToFile("data/hand.bin")
-	newCards := newDeckFromFile("data/hand.bin")
+	err := hand.saveToFile("data/hand.bin")
+	if err != nil {
+		panic(err)
+	}
+
+	newCards, err := newDeckFromFile("data/hand.bin")
+	if err != nil {
+		panic(err)
+	}
+
 	newCards.print()
 }
