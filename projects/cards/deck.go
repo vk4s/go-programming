@@ -5,8 +5,9 @@ import "fmt"
 // create a new type of "deck", which is slice of strings
 type deck []string
 
-func (cards deck) print() {
-	for idx, element := range cards {
+// 'd' here is a 'this' of C++/JS and 'self' of Python
+func (d deck) print() {
+	for idx, element := range d {
 		fmt.Println(idx, element)
 	}
 }
