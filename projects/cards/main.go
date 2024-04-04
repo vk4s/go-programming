@@ -5,7 +5,7 @@ package main
 func main() {
 	cards := deck{"Ace of Diamonds", newCard()}
 	cards = append(cards, "King of Spades")
-	print(cards)
+	cards.print()
 }
 
 func newCard() string {
