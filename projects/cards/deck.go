@@ -42,7 +42,6 @@ func (d deck) print() {
 }
 
 func deal(d deck, handSize int) (deck, deck) {
-	// create a hand of 'n' cards
 	hand := d[:handSize]
 	remaining := d[handSize:]
 	return hand, remaining
