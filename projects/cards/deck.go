@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
 )
@@ -36,6 +37,7 @@ func (d deck) print() {
 	for idx, element := range d {
 		fmt.Println(idx, element)
 	}
+	fmt.Println()
 }
 
 func deal(d deck, handSize int) (deck, deck) {
@@ -43,6 +45,13 @@ func deal(d deck, handSize int) (deck, deck) {
 	hand := d[:handSize]
 	remaining := d[handSize:]
 	return hand, remaining
+}
+
+func (d deck) shuffle() {
+	for i, _ := range d {
+		n := rand.Intn(len(d) - 1)
+		d[i], d[n] = d[n], d[i]
+	}
 }
 
 func (d deck) saveToFile(file string) error {
