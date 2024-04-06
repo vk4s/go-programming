@@ -9,10 +9,10 @@ import (
 	"time"
 )
 
-type deck []string
+type Deck []string
 
-func newDeck() deck {
-	cards := deck{}
+func newDeck() Deck {
+	cards := Deck{}
 
 	cardSuits := []string{"Spades", "Diamonds", "Hearts", "Clubs"}
 	cardValues := []string{"Ace", "King", "Queen", "Jack", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"}
@@ -26,28 +26,28 @@ func newDeck() deck {
 	return cards
 }
 
-func newDeckFromFile(file string) (deck, error) {
-	cards := deck{}
+func newDeckFromFile(file string) (Deck, error) {
+	cards := Deck{}
 	data, err := os.ReadFile(file)
 	decodedText := decodeB64(string(data))
 	cards.fromString(decodedText)
 	return cards, err
 }
 
-func (d deck) print() {
+func (d Deck) print() {
 	for idx, element := range d {
 		fmt.Println(idx, element)
 	}
 	fmt.Println()
 }
 
-func deal(d deck, handSize int) (deck, deck) {
+func deal(d Deck, handSize int) (Deck, Deck) {
 	hand := d[:handSize]
 	remaining := d[handSize:]
 	return hand, remaining
 }
 
-func (d deck) shuffle() {
+func (d Deck) shuffle() {
 	source := rand.NewSource(time.Now().UnixNano())
 	randomGenerator := rand.New(source)
 
@@ -57,20 +57,20 @@ func (d deck) shuffle() {
 	}
 }
 
-func (d deck) saveToFile(file string) error {
+func (d Deck) saveToFile(file string) error {
 	// convert []string -> 'string' -> []byte
 	// write []byte -> base64 encode -> []byte -> file
 	encodedText := encodeB64(d.toString())
 	return os.WriteFile(file, []byte(encodedText), 0666)
 }
 
-func (d deck) toString() string {
+func (d Deck) toString() string {
 	return strings.Join([]string(d), ";")
 }
 
-func (d *deck) fromString(cardsText string) {
+func (d *Deck) fromString(cardsText string) {
 	cards := strings.Split(cardsText, ";")
-	cardsDeck := deck{}
+	cardsDeck := Deck{}
 	for _, card := range cards {
 		cardsDeck = append(cardsDeck, card)
 	}

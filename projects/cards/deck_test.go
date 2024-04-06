@@ -9,9 +9,9 @@ import (
 func TestNewDeck(t *testing.T) {
 	d := newDeck()
 
-	deckSize := 52
-	if len(d) != deckSize {
-		t.Errorf("Expected deck length of '%v', but got '%v'", deckSize, len(d))
+	DeckSize := 52
+	if len(d) != DeckSize {
+		t.Errorf("Expected Deck length of '%v', but got '%v'", DeckSize, len(d))
 	}
 
 	firstCard := "Ace of Spades"
@@ -26,7 +26,7 @@ func TestNewDeck(t *testing.T) {
 }
 
 func TestSaveDeckToFileAndLoadDeckFromFile(t *testing.T) {
-	filename := "_decktesting.bin"
+	filename := "_Decktesting.bin"
 
 	// delete any existing _dectesting.bin file from current dir
 	err := os.Remove(filename)
@@ -35,10 +35,10 @@ func TestSaveDeckToFileAndLoadDeckFromFile(t *testing.T) {
 		fmt.Printf("File %v deleted..\n", filename)
 	}
 
-	// create a deck
+	// create a Deck
 	cards := newDeck()
 
-	// save the deck to a file named _decktesting.bin
+	// save the Deck to a file named _Decktesting.bin
 	err = cards.saveToFile(filename)
 	if err != nil {
 		t.Error(err)
@@ -52,7 +52,7 @@ func TestSaveDeckToFileAndLoadDeckFromFile(t *testing.T) {
 
 	// assert the length
 	if len(cards) != len(newCards) {
-		t.Errorf("Length of both decks not equal. %v != %v", len(cards), len(newCards))
+		t.Errorf("Length of both Decks not equal. %v != %v", len(cards), len(newCards))
 	}
 
 	// delete the _dectesting.bin file from current dir
