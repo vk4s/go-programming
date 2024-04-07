@@ -36,8 +36,11 @@ func main() {
 
 	alex.print()
 
-	alex.updateAge(28)
-	alex.print()
+	// pointer
+	alexPointer := &alex
+	alexPointer.updateAge(28)
+	alexPointer.updateName("Alex", "Smith")
+	alexPointer.print()
 }
 
 func (p Person) print() {
@@ -46,4 +49,9 @@ func (p Person) print() {
 
 func (p *Person) updateAge(age uint8) {
 	p.age = age
+}
+
+func (p *Person) updateName(firstName string, lastName string) {
+	p.firstName = firstName
+	p.lastName = lastName
 }
