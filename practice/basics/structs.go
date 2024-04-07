@@ -37,10 +37,13 @@ func main() {
 	alex.print()
 
 	// pointer
-	alexPointer := &alex
-	alexPointer.updateAge(28)
-	alexPointer.updateName("Alex", "Smith")
-	alexPointer.print()
+	raj := &alex // reference to the same object `raj==alex`
+	// raj := alex // copy of the object `raj is a copy of alex`
+	raj.updateAge(28)
+	raj.updateName("Alex", "Smith")
+	raj.print()
+	alex.print()
+
 }
 
 func (p Person) print() {
