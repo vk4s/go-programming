@@ -26,14 +26,24 @@ func main() {
 		},
 	}
 
-	fmt.Println(john)
+	john.print()
 
 	var alex Person
 
-	fmt.Printf("%+v\n", alex)
+	alex.print()
 
 	alex = john
 
-	fmt.Printf("%+v\n", alex)
+	alex.print()
 
+	alex.updateAge(28)
+	alex.print()
+}
+
+func (p Person) print() {
+	fmt.Printf("%+v\n", p)
+}
+
+func (p *Person) updateAge(age uint8) {
+	p.age = age
 }
