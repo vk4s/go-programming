@@ -19,14 +19,18 @@ func main() {
 	}
 	fmt.Println(resp.Header)
 
-	body, err := io.ReadAll(resp.Body)
-	resp.Body.Close()
+	// - This line prints the request body to the terminal
+	io.Copy(os.Stdout, resp.Body)
 
-	if err != nil {
-		fmt.Println("Error:", err)
-		os.Exit(1)
-	}
+	// - This also prints the request body to the terminal
+	// body, err := io.ReadAll(resp.Body)
+	// resp.Body.Close()
 
-	fmt.Println(len(string(body)))
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// 	os.Exit(1)
+	// }
+
+	// fmt.Println(len(string(body)))
 
 }
