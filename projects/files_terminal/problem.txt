@@ -1,0 +1,2 @@
+Create a program that reads the contents of a text file then prints its contents into the terminal (stdout).
+The name of the file is passed as a commandline argument to the program.
