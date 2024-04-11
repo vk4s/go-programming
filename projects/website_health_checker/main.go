@@ -15,8 +15,6 @@ func checkURL(url string, channel chan string) {
 		return
 	}
 	fmt.Println(url, "is up.")
-	// It reruns the request after 3 seconds
-	time.Sleep(3 * time.Second)
 	channel <- url
 }
 
@@ -48,6 +46,10 @@ func main() {
 	// repeating routines
 	// Wait for the channel to send a new url and when it is received run the body of for loop
 	for url := range channel {
-		go checkURL(url, channel)
+		go func(_url string) {
+			// It reruns the request after 3 seconds
+			time.Sleep(2 * time.Second)
+			checkURL(_url, channel)
+		}(url)
 	}
 }
