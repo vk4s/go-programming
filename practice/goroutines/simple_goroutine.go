@@ -44,7 +44,7 @@ func main() {
 
 	// This waits for the go routines to finish
 	// and prints the messages one-by-one as they finish
-	for range len(names) {
+	for i := 0; i < len(names); i++ {
 		fmt.Println("Status:", <-channel)
 	}
 }
