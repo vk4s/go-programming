@@ -19,7 +19,7 @@ func sendMessage(name string, channel chan string) {
 	elapsedTime := time.Duration(getRandomNumber(5) * int(time.Second))
 	time.Sleep(elapsedTime)
 
-	channel <- fmt.Sprintf("Message sent to %s. Elapsed time: %dms\n", name, elapsedTime.Milliseconds())
+	channel <- fmt.Sprintf("Message sent to %s. Elapsed time: %dms", name, elapsedTime.Milliseconds())
 }
 
 func main() {
@@ -42,6 +42,9 @@ func main() {
 		go sendMessage(name, channel)
 	}
 
-	// receives the message from the fastest go routine and terminates the program.
-	fmt.Println("Status: ", <-channel)
+	// This waits for the go routines to finish
+	// and prints the messages one-by-one as they finish
+	for range len(names) {
+		fmt.Println("Status:", <-channel)
+	}
 }
