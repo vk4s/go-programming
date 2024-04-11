@@ -2,14 +2,24 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 )
+
+func getRandomNumber(max int) int {
+	source := rand.NewSource(time.Now().UnixNano())
+	randomGenerator := rand.New(source)
+	return randomGenerator.Intn(max - 1)
+}
 
 func sendMessage(name string, channel chan string) {
 	fmt.Printf("Sending message to %s...\n>>> ", name)
 	fmt.Println("Hello", name)
-	time.Sleep(1 * time.Second)
-	channel <- fmt.Sprintf("Message sent to %s.\n", name)
+
+	elapsedTime := time.Duration(getRandomNumber(5) * int(time.Second))
+	time.Sleep(elapsedTime)
+
+	channel <- fmt.Sprintf("Message sent to %s. Elapsed time: %dms\n", name, elapsedTime.Milliseconds())
 }
 
 func main() {
@@ -30,7 +40,8 @@ func main() {
 
 	for _, name := range names {
 		go sendMessage(name, channel)
-		fmt.Println("Status: ", <-channel)
 	}
 
+	// receives the message from the fastest go routine and terminates the program.
+	fmt.Println("Status: ", <-channel)
 }
