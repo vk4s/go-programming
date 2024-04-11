@@ -3,28 +3,16 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os"
 )
 
-/*
-This function checks status of a website and returns the `status code`.
-
-Parameters:
-  - url string
-
-Return:
-  - statusCode int
-  - error error
-*/
-func checkStatus(url string) (int, error) {
-
-	resp, err := http.Head(url)
+func checkURL(url string) {
+	_, err := http.Head(url)
 
 	if err != nil {
-		return 0, err
+		fmt.Println(url, "might be down.")
+		return
 	}
-
-	return resp.StatusCode, nil
+	fmt.Println(url, "is up.")
 }
 
 func main() {
@@ -34,16 +22,10 @@ func main() {
 		"http://golang.org",
 		"http://facebook.com",
 		"http://amazon.com",
-		"http://coursedl.org",
 	}
 
-	for _, website := range websites {
-		statusCode, err := checkStatus(website)
-		if err != nil {
-			fmt.Println(website, "Error:", err)
-			os.Exit(1)
-		}
-		fmt.Println(website, statusCode)
+	for _, url := range websites {
+		go checkURL(url)
 	}
 
 }
