@@ -47,7 +47,7 @@ func main() {
 	// Wait for the channel to send a new url and when it is received run the body of for loop
 	for url := range channel {
 		go func(_url string) {
-			// It reruns the request after 3 seconds
+			// It reruns the request after 2 seconds
 			time.Sleep(2 * time.Second)
 			checkURL(_url, channel)
 		}(url)
