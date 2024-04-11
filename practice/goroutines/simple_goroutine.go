@@ -5,11 +5,11 @@ import (
 	"time"
 )
 
-func sayHello(name string) {
+func sendMessage(name string, channel chan string) {
 	fmt.Printf("Sending message to %s...\n>>> ", name)
 	fmt.Println("Hello", name)
-	time.Sleep(2 * time.Second)
-	fmt.Printf("Message sent.\n\n")
+	time.Sleep(1 * time.Second)
+	channel <- fmt.Sprintf("Message sent to %s.\n", name)
 }
 
 func main() {
@@ -25,8 +25,12 @@ func main() {
 		"Rahul",
 	}
 
+	// Create a channel to control go routines' execution
+	channel := make(chan string)
+
 	for _, name := range names {
-		sayHello(name)
+		go sendMessage(name, channel)
+		fmt.Println("Status: ", <-channel)
 	}
 
 }
