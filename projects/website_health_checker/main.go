@@ -46,10 +46,8 @@ func main() {
 	}
 
 	// repeating routines
-	// it runs infinitly and starts back up when request is complete
-	for {
-		// the `<-channel` is a blocking statement
-		// and waits for the request to complete before calling the function
-		go checkURL(<-channel, channel)
+	// Wait for the channel to send a new url and when it is received run the body of for loop
+	for url := range channel {
+		go checkURL(url, channel)
 	}
 }
