@@ -11,7 +11,7 @@ func init() {
 	fmt.Println("Welcome to website health checker.")
 }
 
-func main() {
+func checkWebsiteStatus() {
 
 	var website string
 	fmt.Println("Enter the website address:")
