@@ -3,18 +3,21 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func checkURL(url string, channel chan string) {
 	_, err := http.Head(url)
 
 	if err != nil {
-		// fmt.Println(url, "might be down.")
-		channel <- url + " might be down."
+		fmt.Println(url, "might be down.")
+		channel <- url
 		return
 	}
-	// fmt.Println(url, "is up.")
-	channel <- url + " is up."
+	fmt.Println(url, "is up.")
+	// It reruns the request after 3 seconds
+	time.Sleep(3 * time.Second)
+	channel <- url
 }
 
 func main() {
@@ -42,7 +45,11 @@ func main() {
 		go checkURL(url, channel)
 	}
 
-	for i := 0; i < len(websites); i++ {
-		fmt.Println(<-channel)
+	// repeating routines
+	// it runs infinitly and starts back up when request is complete
+	for {
+		// the `<-channel` is a blocking statement
+		// and waits for the request to complete before calling the function
+		go checkURL(<-channel, channel)
 	}
 }
